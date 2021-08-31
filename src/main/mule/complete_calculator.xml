@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="a0ad4528-41b7-4bc9-b01b-fca0c02fb8ab" basePath="/" >
+		<http:listener-connection host="localhost" port="9008" />
+	</http:listener-config>
+	<flow name="complete_calculatorFlow1" doc:id="1652eec2-5460-409a-9899-182fc119ac4e" >
+		<http:listener doc:name="Receive request from Postman" doc:id="c944c522-e1bf-43e6-a0c3-439f9bc7294d" config-ref="HTTP_Listener_config" path="/"/>
+		<logger level="INFO" doc:name="Welcome to my app" doc:id="38e11a0d-07bf-4c02-87f1-a7260eae185c" message="Welcome to my app, Sam !!"/>
+		<logger level="INFO" doc:name="Payload" doc:id="8efb7d40-07a7-40fc-8d63-d319e694c834" message="#[message.payload]"/>
+		<set-variable value="#[message.attributes.queryParams.n1 as Number]" doc:name="First number" doc:id="e656595c-2709-401d-bdef-7225a12df7af" variableName="n1"/>
+		<set-variable value="#[message.attributes.queryParams.n2 as Number]" doc:name="Second number" doc:id="bbc1cd8b-9b83-4693-bf93-844fe7ef6f9b" variableName="n2"/>
+		<set-variable value="#[vars.n1+ vars.n2]" doc:name="Addition" doc:id="d8dbedc9-8f88-4dcb-ac26-2c6b3f75fb3a" variableName="addition"/>
+		<logger level="INFO" doc:name="Display addition" doc:id="4a823464-0707-4361-8b86-1f1d0872bfb8" message="#[' Addition of two numbers ' ++ vars.n1 ++ ' and ' ++ vars.n2 ++ ' is '++ vars.addition]"/>
+		<set-variable value="#[vars.n1-vars.n2]" doc:name="Subtraction" doc:id="a18606f5-70ec-4877-8bc2-945cec24bef4" variableName="subtraction"/>
+		<logger level="INFO" doc:name="Display Subtraction" doc:id="306c1e19-72ba-41bb-9753-3c878e12ceda" message="#[' Subtraction of two number '++ vars.n1 ++ ' and ' ++ vars.n2  ++ ' is '++ vars.subtraction]"/>
+		<set-variable value="#[vars.n1*vars.n2]" doc:name="Multiplication" doc:id="026b7789-f61d-469f-8f60-2ce5a8086757" variableName="multiplication"/>
+		<logger level="INFO" doc:name="Display Multiplication" doc:id="a5f09530-ab42-4f68-96e6-002b083ac1b0" message="#[' Multiplication of two number '++ vars.n1 ++ ' and ' ++ vars.n2  ++ ' is '++ vars.multiplication]"/>
+		<set-variable value="#[vars.n1/vars.n2]" doc:name="Divison" doc:id="498c2e41-3791-4dac-b816-ae3beffc14df" variableName="divison"/>
+		<logger level="INFO" doc:name="Display Division" doc:id="ae2559b0-1c2f-413b-afe2-6895ad037124" message="#[' Division of two number '++ vars.n1 ++ ' and ' ++ vars.n2  ++  ' is '++ vars.divison]"/>
+		<set-payload value="Operations done, thanksfor using my app" doc:name="Set Payload" doc:id="e2480286-85ba-4abd-931c-766a11a8f049" />
+	</flow>
+</mule>
